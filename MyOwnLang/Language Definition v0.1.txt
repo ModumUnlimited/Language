@@ -32,7 +32,7 @@
 <equals>			<= =
 
 
-#Keywords ()
+#Keywords (still tokens)
 <if>				<= if
 <else>				<= else
 <for>				<= for
@@ -58,7 +58,7 @@
 <bool_op>			<= <and> | <or> | <xor> | <not>
 <operator>			<= <decimal> | <colon> | <math_op_deg_1> | <math_op_deg_2> | <bool_op>
 
-<char_sym>			<= <character> | <digit> | <underscore> | <operator> | <lbacket> | <rbacket> | <lcurly> | <rcurly> | <lsquare> | <rsquare> | <langle> | <rangle> | <question> | <equals>
+<char_sym>			<= *
 <type>				<= (<number_type> | <boolean_type> | <string_type> | <char_type>) [ <lsquare> <rsquare> ]
 
 
@@ -101,6 +101,7 @@
 <do_while>			<= <do> (<statement> | <lcurly> { <statement> } <rcurly>) <while> <lbracket> <bool_expression> <rbracket> <semi>
 
 <flow_control>		<= <if_then> | <if_then_else> | <while_do> | <do_while>
+<use_stmt>			<= <use> <string>
 
-<program>			<= { <statement> | <func_declaration> }
+<program>			<= { <use_stmt> } { <statement> | <func_declaration> }
 

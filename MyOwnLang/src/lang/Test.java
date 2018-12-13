@@ -18,7 +18,6 @@ public class Test {
 		String last = "";
 		while (last != "exit()") {
 			System.out.print(">> ");
-			System.out.print(t.hasNextIf() + "  ");
 			last = t.next();
 			System.out.println(last);
 		}
