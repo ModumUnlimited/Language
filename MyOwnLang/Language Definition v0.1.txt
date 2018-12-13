@@ -1,0 +1,106 @@
+---Language Definition v0.1---
+
+#Tokenizer
+<underscore> 		<= _
+<digit>				<= (0-9)
+<character>			<= (a-z) | (A-z)
+<decimal>			<= .
+<comma>				<= ,
+<true>				<= true
+<false>				<= false
+<colon>				<= :
+<semi>				<= ;
+<plus>				<= +
+<minus>				<= -
+<mult>				<= *
+<divide>			<= /
+<and>				<= &
+<or>				<= |
+<xor>				<= ^
+<not>				<= !
+<lbacket>			<= (
+<rbracket>			<= )
+<lcurly>			<= {
+<rcurly>			<= }
+<lsquare>			<= [
+<rsquare>			<= ]
+<langle>			<= <
+<rangle>			<= >
+<quote>				<= '
+<doublequote>		<= "
+<question>			<= ?
+<equals>			<= =
+
+
+#Keywords ()
+<if>				<= if
+<else>				<= else
+<for>				<= for
+<while>				<= while
+<do>				<= do
+<use>				<= use
+<function>			<= function
+<number_type>		<= num
+<boolean_type>		<= bool
+<string_type>		<= String
+<char_type>			<= char
+
+
+#operators
+<math_op_deg_1>		<= <plus> | <minus>
+<math_op_deg_2>		<= <mul> | <div>
+<cmp_op_equal>		<= <equals> <equals>
+<cmp_op_less>		<= <langle>
+<cmp_op_larger>		<= <rangle>
+<cmp_op_less_eq>	<= <langle> <equals>
+<cmp_op_larger_eq>	<= <rangle> <equals>
+<compare_op>		<= <cmp_op_equal> | <cmp_op_less> | <cmp_op_larger> | <cmp_op_less_eq> | <cmp_op_larger_eq>
+<bool_op>			<= <and> | <or> | <xor> | <not>
+<operator>			<= <decimal> | <colon> | <math_op_deg_1> | <math_op_deg_2> | <bool_op>
+
+<char_sym>			<= <character> | <digit> | <underscore> | <operator> | <lbacket> | <rbacket> | <lcurly> | <rcurly> | <lsquare> | <rsquare> | <langle> | <rangle> | <question> | <equals>
+<type>				<= (<number_type> | <boolean_type> | <string_type> | <char_type>) [ <lsquare> <rsquare> ]
+
+
+
+#Literals
+<number>			<= [ <minus> ] <digit> { <digit> | <underscore> <digit> } [ <decimal> <digit> { <digit> | <underscore> <digit> } ]
+<boolean>			<= <true> | <false>
+<string>			<= <doublequote> { <char_sym> } <doublequote>
+<char>				<= <quote> <char_sym> <quote>
+
+
+#atoms
+<variable>			<= <character> { <character> | <digit> | <underscore> }
+<math_atom>			<= <number> | <variable>
+<bool_atom>			<= <boolean> | <variable>
+
+#functions
+<func_call>			<= <character> { <character> | <digit> | <underscore> } <lbracket> { <expression> <comma> } <rbracket>
+<func_body>			<= <lcurly> { <statement> } <rcurly>
+<func_declaration>	<= <function> <character> { <character> | <digit> | <underscore> } <lbracket> [ <type> <variable> { <comma> <type> <variable> }] <rbracket> <func_body>
+
+#terms
+<math_term>			<= <lbracket> <math_expression> <rbracket> | <func_call> | <math_atom> <math_op_deg_2> <math_atom> | <math_atom>
+<bool_term>			<= <lbracket> <bool_expression> <rbracket> | <func_call> | <bool_atom>
+
+#expressions
+<math_expression>	<= <math_term> { <math_op_deg_1> <math_term>}
+<bool_expression>	<= <bool_term> { <bool_op> <bool_term> } | <expression> <compare_op> <expression>
+<expression>		<= <math_expression> | <bool_expression>
+
+
+#statements
+<statement>			<= ((<func_call> | <expression>) <semi>) | <flow_control>
+
+
+#structure
+<if_then>			<= <if> <lbracket> <bool_expression> <rbracket> (<statement> | <lcurly> { <statement> } <rcurly>)
+<if_then_else>		<= <if_then> <else> (<statement> | <lcurly> { <statement> } <rcurly>)
+<while_do>			<= <while> <lbracket> <bool_expression> <rbracket> (<statement> | <lcurly> { <statement> } <rcurly>)
+<do_while>			<= <do> (<statement> | <lcurly> { <statement> } <rcurly>) <while> <lbracket> <bool_expression> <rbracket> <semi>
+
+<flow_control>		<= <if_then> | <if_then_else> | <while_do> | <do_while>
+
+<program>			<= { <statement> | <func_declaration> }
+
