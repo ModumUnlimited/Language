@@ -16,9 +16,21 @@ public class Test {
 	public static void main(String[] args) {
 		Tokenizer t = new Tokenizer(new Scanner(System.in));
 		String last = "";
-		while (last != "exit()") {
+		boolean b;
+		while (last != "exit") {
 			System.out.print(">> ");
-			last = t.next();
+			System.out.println(b = t.hasNextDoublequote());
+			if (b) {
+				last = t.nextDoublequote();
+				t.disableDelimiter();
+				while (!t.hasNextDoublequote()) {
+					t.next();
+				}
+				t.enableDelimiter();
+				last += t.nextDoublequote();
+			} else {
+				last = t.next();
+			}
 			System.out.println(last);
 		}
 	}

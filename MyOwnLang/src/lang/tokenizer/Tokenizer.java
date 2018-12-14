@@ -62,6 +62,8 @@ public class Tokenizer {
 	private Pattern rule_lit_bool = Pattern.compile("true|false");
 	private Pattern rule_lit_string = Pattern.compile("\".*\"");
 	private Pattern rule_lit_char = Pattern.compile("'.'");
+	
+	private Pattern delimiter = Pattern.compile("\\s+|(?![A-Za-z0-9._])|(?<![A-Za-z0-9._])");
 
 	public Tokenizer(InputStream input) {
 		this(new Scanner(input));
@@ -77,11 +79,24 @@ public class Tokenizer {
 
 	public Tokenizer(Scanner scanner) {
 		this.scanner = scanner;
-		scanner.useDelimiter("\\s+|(?![A-Za-z0-9._])|(?<![A-Za-z0-9._])");
+		scanner.useDelimiter(delimiter);
 	}
+	
+	public void disableDelimiter() {
+		scanner.useDelimiter("");
+	}
+	
+	public void enableDelimiter() {
+		scanner.useDelimiter(delimiter);
+	}
+	
 
 	public boolean hasNext() {
 		return scanner.hasNext();
+	}
+	
+	public boolean hasNextLine() {
+		return scanner.hasNextLine();
 	}
 
 	public boolean hasNextIf() {
@@ -254,6 +269,10 @@ public class Tokenizer {
 
 	public String next() {
 		return scanner.next();
+	}
+	
+	public String nextLine() {
+		return scanner.nextLine();
 	}
 
 	public String nextIf() {
