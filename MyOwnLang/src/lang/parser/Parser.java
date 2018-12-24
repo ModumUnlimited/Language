@@ -24,16 +24,20 @@ public class Parser {
 		while (tokens.hasNextUse()) {
 			parseUse();
 		}
+		while (tokens.hasNext());
 	}
 	
 	public void parseUse() throws ParserException {
-		String use = tokens.nextUse();
+		tokens.nextUse();
 		int addr = parseString();
 	}
 	
 	public int parseString() throws ParserException {
 		if (!tokens.hasNextString()) throw new ParserException("unexpected token '" + tokens.next() +  "', expected string litteral");
-		if (lit_strings.contains(o))
+		String token = tokens.nextString();
+		if (lit_strings.contains(token)) return lit_strings.indexOf(token);
+		lit_strings.add(token);
+		return lit_strings.size()-1;
 	}
 
 }
